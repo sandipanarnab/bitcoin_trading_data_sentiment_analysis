@@ -1,6 +1,12 @@
-# bitcoin_trading_data_sentiment_analysis
+# 🪙 Bitcoin Market Sentiment & Trader Performance Analysis
+
+> **Submitted to:** Primetrade.ai Hiring Team — Data Science Assignment  
+> **Platform Analyzed:** Hyperliquid Perpetuals Exchange  
+> **Coverage:** February 2018 – May 2025
 
 Analyze how Bitcoin market sentiment affects trader behavior and performance using Hyperliquid trade data.
+
+📄 **For the full written analysis, findings, and strategy recommendations, see [`ANALYSIS_REPORT.md`](ANALYSIS_REPORT.md)**
 
 ## What This Project Does
 
@@ -8,16 +14,20 @@ This repository contains a notebook-driven analysis that:
 
 - merges Bitcoin Fear and Greed sentiment with Hyperliquid trade records
 - engineers trader-level and trade-level features
-- compares Fear vs Greed regimes statistically
+- compares Fear vs. Greed regimes statistically
 - trains Logistic Regression and Random Forest models
 - saves plots and model artifacts for reuse
 
 ## Main Findings
 
-- Sentiment differences are statistically significant, but the practical effect is small
-- Random Forest is the best model, with ROC-AUC of 0.9859
-- Trade direction is the strongest predictive feature by far
-- Trader history and leverage discipline matter more than sentiment alone
+- Sentiment differences between Fear and Greed are **statistically significant** (Mann-Whitney p = 0.000954), but the practical effect size is very small (rank-biserial r = 0.0086)
+- **Random Forest** is the best model with a ROC-AUC of **0.9859** and accuracy of **93.89%**
+- **Trade direction (`is_buy`) is the strongest predictive feature by far**, accounting for 87.77% of Random Forest importance
+- Trader history (win rate) and leverage discipline matter more than sentiment alone
+- **Extreme Greed** produces the highest win rate (46.49%) and mean PnL ($67.89); **Extreme Fear** the lowest (37.06%)
+- Weekend trading consistently underperforms weekday trading across both models
+
+> 📄 See [`ANALYSIS_REPORT.md`](ANALYSIS_REPORT.md) for the full breakdown with charts, statistical tests, and trading strategy recommendations.
 
 ## Repository Structure
 
@@ -26,7 +36,7 @@ project_document/              Assignment brief and explanation files
 notebook/bitcoin_sentiment_trader_analysis.ipynb
 metrics/                       Saved plots from the notebook
 models/                        Serialized model bundle
-ANALYSIS_REPORT.md             Full written analysis
+ANALYSIS_REPORT.md             ← Full written analysis report (start here)
 requirements.txt               Python dependencies
 ```
 
@@ -34,6 +44,7 @@ requirements.txt               Python dependencies
 
 | Output | Description |
 | --- | --- |
+| **[`ANALYSIS_REPORT.md`](ANALYSIS_REPORT.md)** | **📄 Full written analysis — findings, charts, and strategy recommendations** |
 | `metrics/model_evaluation.png` | ROC and precision-recall curves for both models |
 | `metrics/regression_coefficients.png` | Logistic Regression coefficient chart |
 | `metrics/feature_importance.png` | Random Forest feature importance chart |
@@ -96,7 +107,17 @@ Open `notebook/bitcoin_sentiment_trader_analysis.ipynb` in Jupyter, VS Code, or 
 
 ## Limitations
 
-- Sentiment is useful, but it is not the dominant signal
+- Sentiment is useful, but it is not the dominant signal — the rank-biserial correlation of 0.0086 shows a tiny practical effect size despite statistical significance
 - The strongest model feature is trade direction, so the analysis is more behavioral than macro-driven
-- Some results in the notebook are mixed for trade frequency, so leverage and direction are better decision variables than activity count alone
+- Results for trade frequency are mixed in the notebook — leverage discipline and directional accuracy are more reliable decision variables than activity count alone
+- Only 32 unique traders in the dataset; broader generalization would benefit from a larger trader pool
+
+## Further Reading
+
+The [`ANALYSIS_REPORT.md`](ANALYSIS_REPORT.md) file contains the complete analysis including:
+- Full EDA with PnL distribution breakdown across all 4 sentiment classes
+- Statistical test results (Mann-Whitney U, Chi-Square, effect sizes)
+- Model performance deep-dive with ROC and Precision-Recall curve interpretation
+- Feature importance and Logistic Regression coefficient analysis
+- 5 actionable strategy recommendations grounded in model outputs
 
